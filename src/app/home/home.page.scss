@@ -30,11 +30,27 @@ ion-content{
   border-radius: 15px;
 }
 
-
+.text-tr{
+  font-family: Nunito !important;
+  font-size:1.4em;
+  font-weight: bold;
+}
 
 .star{
   width: 25px;
   height: 25px;
+}
+
+.well {
+  display: flex;
+  align-items: center;
+}
+
+.points{
+  font-family: Nunito !important;
+  color: #333335;
+  font-size: 40px;
+  font-weight: bold;
 }
 
 
