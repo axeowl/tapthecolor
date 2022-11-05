@@ -1,34 +1,40 @@
-#container {
-  text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+ion-content{
+  --ion-background-color: #FFF4E9 !important;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.color-div {
+  height: 55%;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.rounded-5 {
+  border-radius: 10px !important;
 }
 
-#container a {
-  text-decoration: none;
+.table-base{
+  background-color: white;
+  border-radius: 0px 0px 10px 10px;
+  height: 25px;
+  width: 95%;
 }
 
-ion-col{
-  border-color: black; 
-  border-width: .01em; 
-  border-style:solid; margin-bottom : -1px;
-  background-color: lightgrey
+.title-game{
+  font-family: Nunito !important;
+  font-size:1.8em;
+  color: #505050;
+  margin-left: 15px;
 }
+
+.points-div{
+  font-family: Nunito !important;
+  color: #656565;
+  border-radius: 15px;
+}
+
+
+
+.star{
+  width: 25px;
+  height: 25px;
+}
+
+

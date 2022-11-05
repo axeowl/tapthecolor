@@ -93,7 +93,7 @@ export class HomePage implements OnInit{
         window.clearTimeout(this.gameMatrix[i][j].timeout);
       }
     }
-    this.router.navigateByUrl("/stop")
+    // this.router.navigateByUrl("/stop")
   }
 
   generateBall(isCorrect) {

@@ -1,12 +1,47 @@
 <ion-content [fullscreen]="true">
   {{points}}
-  <table class="table table-bordered">
-    <tbody>
-      <tr *ngFor="let row of [0,1,2]">
-        <td *ngFor="let col of [0,1,2]" (click)="pop(row,col)" [style.background]="gameMatrix[row][col].bg">
-          <label *ngIf="gameMatrix[row][col].show" [style.color]="gameMatrix[row][col].labelBg">{{gameMatrix[row][col].label}}</label>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+  <!-- header con titolo -->
+  <div class="m-2">
+    <label class="title-game font-weight-bold"> TapTheColor.com</label>
+  </div>
+
+  <!-- punti -->
+  <div class="container">
+    <div class="row points-div  mx-3">
+      <div class="col">
+        <p class="text-right">Best: 🎉</p>
+      </div>
+    </div>
+    <div class="row bg-white points-div mx-3 mb-3 ">
+ 
+
+          <img src="../../assets/icon/star.svg" alt="icon points" class="border-0 star">
+          <h1> 55 </h1>
+     
+     
+      
+    </div>
+  </div>
+  
+  <!-- matrice di gioco -->
+  <div class="color-div px-4">
+    <table class="table h-100 text-center rounded rounded-5 overflow-hidden mb-0">
+      <tbody>
+        <tr *ngFor="let row of [0,1,2]" class="border-0">
+          <td *ngFor="let col of [0,1,2]" (click)="pop(row,col)" [style.background]="gameMatrix[row][col].bg" class="align-middle border-0">
+            <label *ngIf="gameMatrix[row][col].show" [style.color]="gameMatrix[row][col].labelBg">{{gameMatrix[row][col].label}}</label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+ 
+    <div class="table-base col align-self-center mx-auto">
+      
+    </div>
+
+   
+  </div>
+  
+  
 </ion-content>
