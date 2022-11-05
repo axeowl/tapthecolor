@@ -37,8 +37,8 @@ ion-content{
 }
 
 .star{
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
 }
 
 .well {
@@ -51,6 +51,20 @@ ion-content{
   color: #333335;
   font-size: 40px;
   font-weight: bold;
+}
+
+
+.slide-bck-center {
+	animation: slide-bck-center 0.45s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+}
+
+@keyframes slide-bck-center {
+  0% {
+    transform: translateZ(0);
+  }
+  100% {
+    transform: translateZ(-400px);
+  }
 }
 
 

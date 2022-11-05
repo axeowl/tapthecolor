@@ -13,7 +13,7 @@
         <p class="text-right">Best: {{localScore}} 🎉</p>
       </div>
     </div>
-    <div class="row bg-white points-div mx-3 mb-3 ">
+    <div class="row bg-white points-div mx-3 mb-3 shadow">
       <div class="col-12 well">
         <div class="col-6 text-right pr-0">
           <img src="../../assets/icon/star.svg" alt="icon points" class="border-0 star">
@@ -31,15 +31,15 @@
   <div class="color-div px-4">
     <table class="table h-100 text-center rounded rounded-5 overflow-hidden mb-0">
       <tbody>
-        <tr *ngFor="let row of [0,1,2]" class="border-0 shadow-sm">
-          <td *ngFor="let col of [0,1,2]" (click)="pop(row,col)" [style.background]="gameMatrix[row][col].bg" class="align-middle border-0 shadow-sm">
+        <tr *ngFor="let row of [0,1,2]" class="border-0 shadow"> 
+          <td *ngFor="let col of [0,1,2]" (click)="pop(row,col)" [style.background]="gameMatrix[row][col].bg" class="align-middle border-0 shadow" ngClass="{'slide-bck-center': 'gameMatrix[row][col].popped' && 'gameMatrix[row][col].correct'}">
             <label *ngIf="gameMatrix[row][col].show" [style.color]="gameMatrix[row][col].labelBg" class="text-tr">{{gameMatrix[row][col].label}}</label>
           </td>
         </tr>
       </tbody>
     </table>
  
-    <div class="table-base col align-self-center mx-auto">
+    <div class="table-base col align-self-center mx-auto shadow">
       
     </div>
 
