@@ -111,26 +111,26 @@ export class HomePage implements OnInit{
 
   generateBall(isCorrect) {
     if(isCorrect) {
-      let bgRndIndex = this.getRandomValue(0,3);
-      let labelRndIndex = this.getRandomValue(0,3);
+      let bgRndIndex = this.getRandomValue(0,this.colors.length);
+      let labelRndIndex = this.getRandomValue(0,this.colors.length);
       while(bgRndIndex == labelRndIndex) {
-        bgRndIndex = this.getRandomValue(0,3);
-        labelRndIndex = this.getRandomValue(0,3);
+        bgRndIndex = this.getRandomValue(0,this.colors.length);
+        labelRndIndex = this.getRandomValue(0,this.colors.length);
       }
       return [this.colors[bgRndIndex][0], this.colors[labelRndIndex][0], this.colors[bgRndIndex][1]]
     }
     else {
-      let bgRndIndex1 = this.getRandomValue(0,3);
-      let labelRndIndex = this.getRandomValue(0,3);
-      let bgRndIndex2 = this.getRandomValue(0,3);
+      let bgRndIndex1 = this.getRandomValue(0,this.colors.length);
+      let labelRndIndex = this.getRandomValue(0,this.colors.length);
+      let bgRndIndex2 = this.getRandomValue(0,this.colors.length);
 
       while(bgRndIndex1 == bgRndIndex2) {
-        bgRndIndex1 = this.getRandomValue(0,3);
-        bgRndIndex2 = this.getRandomValue(0,3);
+        bgRndIndex1 = this.getRandomValue(0,this.colors.length);
+        bgRndIndex2 = this.getRandomValue(0,this.colors.length);
       }
       while(bgRndIndex1 == labelRndIndex) {
-        bgRndIndex1 = this.getRandomValue(0,3);
-        labelRndIndex = this.getRandomValue(0,3);
+        bgRndIndex1 = this.getRandomValue(0,this.colors.length);
+        labelRndIndex = this.getRandomValue(0,this.colors.length);
       }
       return [this.colors[bgRndIndex1][0], this.colors[bgRndIndex2][0], this.colors[labelRndIndex][1]]
     }
