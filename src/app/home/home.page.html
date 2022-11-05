@@ -1,20 +1,12 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  {{points}}
+  <table class="table table-bordered">
+    <tbody>
+      <tr *ngFor="let row of [0,1,2]">
+        <td *ngFor="let col of [0,1,2]" (click)="pop(row,col)" [style.background]="gameMatrix[row][col].bg">
+          <label *ngIf="gameMatrix[row][col].show" [style.color]="gameMatrix[row][col].labelBg">{{gameMatrix[row][col].label}}</label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </ion-content>
