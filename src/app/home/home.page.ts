@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage-angular'; 
 
 @Component({
   selector: 'app-home',
@@ -16,17 +17,24 @@ export class HomePage implements OnInit{
   MAX_APP = 6000;
   gameMatrix: any;
   points = 0;
+  localScore: number;
   colors = [["#FECC2F","yellow"],
             ["#B2C225","green"],
             ["#40A4D8","blue"]];
   neutral = "#8E8E8E";
 
-  constructor(private router: Router) {
-    
+  constructor(private router: Router, private storage: Storage) {
+    this.storage.create();
+    this.storage.get('score').then((val) => {
+      if(val == undefined)
+        this.localScore = 0;
+      else
+        this.localScore = val;
+    });
   }
 
   ngOnInit() {
-    this.initializeGame()
+    this.initializeGame();
   }
 
   initializeGame() {
@@ -93,6 +101,11 @@ export class HomePage implements OnInit{
         window.clearTimeout(this.gameMatrix[i][j].timeout);
       }
     }
+    this.storage.get('score').then((val) => {
+      if(val < this.points) {
+        this.storage.set('score', this.points);
+      }
+    });
     this.router.navigateByUrl("/stop")
   }
 

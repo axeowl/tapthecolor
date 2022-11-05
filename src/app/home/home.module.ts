@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { HomePageRoutingModule } from './home-routing.module';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 
 @NgModule({
@@ -13,8 +14,9 @@ import { HomePageRoutingModule } from './home-routing.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    IonicStorageModule.forRoot()
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
 })
 export class HomePageModule {}
