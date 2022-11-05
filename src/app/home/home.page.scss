@@ -81,4 +81,19 @@ td {
   height: 120px;
 }
 
+@media (min-width: 800px) {
+  /* … */
+  .color-div, .info-points{
+    margin-left: 300px;
+    margin-right: 300px;
+  }
+
+  .best-score{
+    font-size: 1.7em;
+  }
+
+
+  
+}
+
 

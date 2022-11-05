@@ -106,7 +106,7 @@ export class HomePage implements OnInit{
         this.storage.set('score', this.points);
       }
     });
-    // this.router.navigateByUrl("/stop")
+    this.router.navigateByUrl("/stop")
   }
 
   generateBall(isCorrect) {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-stop',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StopPage implements OnInit {
 
-  constructor() { }
+  subscription;
+
+  constructor(private platform:Platform) { }
 
   ngOnInit() {
   }
