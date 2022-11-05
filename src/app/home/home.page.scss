@@ -69,3 +69,16 @@ ion-content{
 }
 
 
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+td {
+  padding: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100px;
+  height: 120px;
+}
+
+
