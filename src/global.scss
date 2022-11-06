@@ -28,4 +28,8 @@
 @font-face {   
     font-family: 'Nunito';    //This is what we are going to call
     src: url('../src/assets/fonts/Nunito/Nunito-VariableFont_wght.ttf');
-  }
+}
+
+ion-content{
+  --ion-background-color: #FFF4E9 !important;
+}
