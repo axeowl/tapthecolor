@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular'; 
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -25,7 +24,10 @@ export class HomePage implements OnInit{
   probabilities = [0.3, 0.3, 0.4];
   modes = [0, 1, 2];
 
-  constructor(private router: Router, private storage: Storage) {
+  constructor(private router: Router, 
+              private storage: Storage) {
+
+
     this.storage.create();
     this.storage.get('score').then((val) => {
       if(val == undefined)
@@ -33,6 +35,7 @@ export class HomePage implements OnInit{
       else
         this.localScore = val;
     });
+
   }
 
   ngOnInit() {

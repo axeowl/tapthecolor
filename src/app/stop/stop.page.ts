@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
+import { SocialsharingService } from '../services/socialsharing.service';
+
 
 @Component({
   selector: 'app-stop',
@@ -10,7 +12,10 @@ export class StopPage implements OnInit {
 
   subscription;
 
-  constructor(private platform:Platform) { }
+  constructor(private platform:Platform,
+              public socialSharing: SocialsharingService) { 
+
+  }
 
   ngOnInit() {
   }

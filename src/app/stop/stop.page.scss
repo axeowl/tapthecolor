@@ -1,0 +1,44 @@
+.title-game{
+    font-family: Nunito !important;
+    font-size:2.1em;
+    color: #505050;
+    margin-left: 15px;
+    font-weight: bold;
+}
+
+.gameover{
+    background-color: white;
+    border-radius: 15px;
+    height: 25vh;
+    width: 80vw;
+    -webkit-transform: rotate(-5deg);
+    -ms-transform: rotate(-5deg);
+    transform: rotate(-5deg);
+}
+
+.angle{
+    -webkit-transform: rotate(5deg);
+    -ms-transform: rotate(5deg);
+    transform: rotate(5deg);
+}
+
+.points{
+    font-size: 4em;
+}
+
+
+.share{
+    background-color: #40A4D8;
+    height: 5vh;
+    width: 40vw;
+    border-radius: 15px;
+    font-size: 1.2em;
+}
+
+.retry{
+    background-color: #B2C225;
+    height: 8vh;
+    width: 43vw;
+    border-radius: 15px;
+    font-size: 1.4em;
+}
