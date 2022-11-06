@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular'; 
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -23,7 +22,10 @@ export class HomePage implements OnInit{
             ["#40A4D8","blue"]];
   neutral = "#8E8E8E";
 
-  constructor(private router: Router, private storage: Storage) {
+  constructor(private router: Router, 
+              private storage: Storage) {
+
+
     this.storage.create();
     this.storage.get('score').then((val) => {
       if(val == undefined)
@@ -31,6 +33,7 @@ export class HomePage implements OnInit{
       else
         this.localScore = val;
     });
+
   }
 
   ngOnInit() {
