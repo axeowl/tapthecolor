@@ -80,13 +80,22 @@ export class HomePage implements OnInit{
       let isCorrect = this.getRandomValueOnRate();
       this.gameMatrix[row][col] = this.generateBall(row*10+col, startTime, isCorrect)
       startTime = !this.gameMatrix[row][col].clickable ? startTime*2/3 : startTime;
+
       this.gameMatrix[row][col]["timeout"] = window.setTimeout(() => {
+       
+        // document.getElementById(this.gameMatrix[row][col].id).style.animation="myAnim 0.8s linear 0s 1 normal forwards";
+        // document.getElementById(this.gameMatrix[row][col].id).addEventListener("animationend", function() {
+        //   console.log('finita l animazione')
+        // }, false);
+
         this.gameMatrix[row][col].show = 0;
         this.gameMatrix[row][col].bg = this.neutral;
         this.gameMatrix[row][col].clickable = false;
+
         if(this.gameMatrix[row][col].correct && !this.gameMatrix[row][col].popped) {
           this.failed();
         }
+
         this.refillCell(row, col);
       }, startTime);
       this.generatedCells++;
@@ -141,7 +150,7 @@ export class HomePage implements OnInit{
         this.storage.set('score', this.points);
       }
     });
-    alert("Hai perso")
+    // alert("Hai perso")
     // this.router.navigateByUrl("/stop")
   }
 
