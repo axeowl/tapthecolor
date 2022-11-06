@@ -31,7 +31,7 @@
       <tbody>
         <tr *ngFor="let row of [0,1,2]" class="border-0 shadow"> 
           <td *ngFor="let col of [0,1,2]" (click)="pop(row,col)" [style.background]="gameMatrix[row][col].bg" class="align-middle border-0 shadow" ngClass="{'slide-bck-center': 'gameMatrix[row][col].popped' && 'gameMatrix[row][col].correct'}">
-            <label *ngIf="gameMatrix[row][col].show" [style.color]="gameMatrix[row][col].labelBg" class="text-tr">{{gameMatrix[row][col].label}}</label>
+            <label *ngIf="gameMatrix[row][col].show" [style.color]="gameMatrix[row][col].labelBg" class="text-tr" >{{gameMatrix[row][col].label}}</label>
           </td>
         </tr>
       </tbody>

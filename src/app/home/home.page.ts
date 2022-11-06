@@ -10,18 +10,24 @@ export class HomePage implements OnInit{
 
   ROW = 3;
   COL = 3;
-  MIN_DIS = 7000;
-  MAX_DIS = 7500;
+  MIN_DIS = 5000;
+  MAX_DIS = 6800;
   MIN_APP = 3000;
-  MAX_APP = 3500;
+  MAX_APP = 4000;
   gameMatrix: any;
   points = 0;
   localScore: number;
-  colors = [["#FECC2F","yellow"],
-            ["#B2C225","green"],
-            ["#40A4D8","blue"]];
+  colors = [["#DB3937","red"],
+            ["#F66320","orange"],
+            ["#FECC2F","yellow"],
+            ["#B2C224","green"],
+            ["#40A4D8","blue"],
+            ["#A364D9","violet"],
+            ["#EE6579","pink"],];
+  colorIndex = 2;
   neutral = "#8E8E8E";
-  probabilities = [0.3, 0.3, 0.4];
+  generatedCells = 0;
+  probabilities = [0.1, 0.2, 0.7];
   modes = [0, 1, 2];
 
   constructor(private router: Router, 
@@ -68,10 +74,12 @@ export class HomePage implements OnInit{
 
     let startTime = this.getRandomValue(this.MIN_DIS,this.MAX_DIS)
     let refillTime = this.getRandomValue(this.MIN_APP,this.MAX_APP)
-
+    
+    refillTime = !this.gameMatrix[row][col].clickable ? refillTime/2 : refillTime;
     window.setTimeout(() => {
       let isCorrect = this.getRandomValueOnRate();
       this.gameMatrix[row][col] = this.generateBall(row*10+col, startTime, isCorrect)
+      startTime = !this.gameMatrix[row][col].clickable ? startTime*2/3 : startTime;
       this.gameMatrix[row][col]["timeout"] = window.setTimeout(() => {
         this.gameMatrix[row][col].show = 0;
         this.gameMatrix[row][col].bg = this.neutral;
@@ -81,6 +89,7 @@ export class HomePage implements OnInit{
         }
         this.refillCell(row, col);
       }, startTime);
+      this.generatedCells++;
     }, refillTime);
   }
 
@@ -132,34 +141,30 @@ export class HomePage implements OnInit{
         this.storage.set('score', this.points);
       }
     });
-    this.router.navigateByUrl("/stop")
+    alert("Hai perso")
+    // this.router.navigateByUrl("/stop")
   }
 
   generateBall(id, startTime, mode) {
     if(mode == 1) {
-      let bgRndIndex = this.getRandomValue(0,this.colors.length);
-      let labelRndIndex = this.getRandomValue(0,this.colors.length);
+      let bgRndIndex = this.getRandomValue(0,this.colorIndex);
+      let labelRndIndex = this.getRandomValue(0,this.colorIndex);
       while(bgRndIndex == labelRndIndex) {
-        bgRndIndex = this.getRandomValue(0,this.colors.length);
-        labelRndIndex = this.getRandomValue(0,this.colors.length);
+        bgRndIndex = this.getRandomValue(0,this.colorIndex);
+        labelRndIndex = this.getRandomValue(0,this.colorIndex);
       }
-      console.log("Correct", id, this.colors[bgRndIndex][0], this.colors[labelRndIndex][0], this.colors[bgRndIndex][1]);
       return { "id": id, "show": 1, "time": startTime, "bg": this.colors[bgRndIndex][0], "labelBg": this.colors[labelRndIndex][0], "label": this.colors[bgRndIndex][1], "correct": true, "popped": false, "clickable": true }
     }
     else if(mode == 0) {
-      let bgRndIndex1 = this.getRandomValue(0,this.colors.length);
-      let labelRndIndex = this.getRandomValue(0,this.colors.length);
-      let bgRndIndex2 = this.getRandomValue(0,this.colors.length);
+      let bgRndIndex1 = this.getRandomValue(0,this.colorIndex);
+      let labelRndIndex = this.getRandomValue(0,this.colorIndex);
+      let bgRndIndex2 = this.getRandomValue(0,this.colorIndex);
 
-      while(bgRndIndex1 == bgRndIndex2) {
-        bgRndIndex1 = this.getRandomValue(0,this.colors.length);
-        bgRndIndex2 = this.getRandomValue(0,this.colors.length);
+      while(bgRndIndex1 == bgRndIndex2 || bgRndIndex1 == labelRndIndex) {
+        bgRndIndex1 = this.getRandomValue(0,this.colorIndex);
+        bgRndIndex2 = this.getRandomValue(0,this.colorIndex);
+        labelRndIndex = this.getRandomValue(0,this.colorIndex);
       }
-      while(bgRndIndex1 == labelRndIndex) {
-        bgRndIndex1 = this.getRandomValue(0,this.colors.length);
-        labelRndIndex = this.getRandomValue(0,this.colors.length);
-      }
-      console.log("Not correct", id, this.colors[bgRndIndex1][0], this.colors[bgRndIndex2][0], this.colors[labelRndIndex][1]);
       return { "id": id, "show": 1, "time": startTime, "bg": this.colors[bgRndIndex1][0], "labelBg": this.colors[bgRndIndex2][0], "label": this.colors[labelRndIndex][1], "correct": false, "popped": false, "clickable": true }
     }
     else {
@@ -169,19 +174,21 @@ export class HomePage implements OnInit{
 
   increasePoint() {
     this.points++;
-    if(this.points%5 == 0) {
-      this.MAX_APP = this.MAX_APP - this.MAX_APP/10;
-      this.MIN_APP = this.MIN_APP - this.MIN_APP/10;
-      this.MAX_DIS = this.MAX_DIS - this.MAX_DIS/10;
-      this.MIN_DIS = this.MIN_DIS - this.MIN_DIS/10;
+    if(this.generatedCells%8 == 0) {
+      this.MAX_APP = this.MAX_APP - this.MAX_APP*0.1;
+      this.MIN_APP = this.MIN_APP - this.MIN_APP*0.1;
+      this.MAX_DIS = this.MAX_DIS - this.MAX_DIS*0.12;
+      this.MIN_DIS = this.MIN_DIS - this.MIN_DIS*0.12;
+      if(this.colorIndex <= this.colors.length)
+        this.colorIndex++;
       if(this.probabilities[0] <= 0.5) {
-        this.probabilities[0] += 0.05;
+        this.probabilities[0] += 0.04;
       }
       if(this.probabilities[1] <= 0.5) {
-        this.probabilities[1] += 0.05;
+        this.probabilities[1] += 0.04;
       }
       if(this.probabilities[2] > 0) {
-        this.probabilities[2] -= 0.05;
+        this.probabilities[2] -= 0.08;
       }
     }
   }
