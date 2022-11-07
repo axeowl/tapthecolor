@@ -151,7 +151,7 @@ export class HomePage implements OnInit{
       }
     });
     // alert("Hai perso")
-    // this.router.navigateByUrl("/stop")
+    this.router.navigateByUrl("/stop")
   }
 
   generateBall(id, startTime, mode) {

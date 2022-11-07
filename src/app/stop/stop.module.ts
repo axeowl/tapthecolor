@@ -8,12 +8,19 @@ import { StopPageRoutingModule } from './stop-routing.module';
 
 import { StopPage } from './stop.page';
 
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    StopPageRoutingModule
+    StopPageRoutingModule,
+    ShareButtonsModule.withConfig({
+      debug: true,
+    }),
+    ShareIconsModule
   ],
   declarations: [StopPage]
 })

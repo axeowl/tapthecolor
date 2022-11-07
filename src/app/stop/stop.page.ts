@@ -11,6 +11,7 @@ import { SocialsharingService } from '../services/socialsharing.service';
 export class StopPage implements OnInit {
 
   subscription;
+  points = 0;
 
   constructor(private platform:Platform,
               public socialSharing: SocialsharingService) { 
