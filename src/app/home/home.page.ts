@@ -141,8 +141,7 @@ export class HomePage implements OnInit{
         this.storage.set('score', this.points);
       }
     });
-    alert("Hai perso")
-    // this.router.navigateByUrl("/stop")
+    this.router.navigateByUrl("/stop")
   }
 
   generateBall(id, startTime, mode) {
@@ -175,10 +174,10 @@ export class HomePage implements OnInit{
   increasePoint() {
     this.points++;
     if(this.generatedCells%8 == 0) {
-      this.MAX_APP = this.MAX_APP - this.MAX_APP*0.1;
-      this.MIN_APP = this.MIN_APP - this.MIN_APP*0.1;
-      this.MAX_DIS = this.MAX_DIS - this.MAX_DIS*0.12;
-      this.MIN_DIS = this.MIN_DIS - this.MIN_DIS*0.12;
+      this.MAX_APP = this.MAX_APP > this.MAX_APP*0.25 ? this.MAX_APP - this.MAX_APP*0.1 : this.MAX_APP*0.25;
+      this.MIN_APP = this.MIN_APP > this.MIN_APP*0.25 ? this.MIN_APP - this.MIN_APP*0.1 : this.MIN_APP*0.25;
+      this.MAX_DIS = this.MAX_DIS > this.MAX_DIS*0.25 ? this.MAX_DIS - this.MAX_DIS*0.12 : this.MAX_DIS*0.25;
+      this.MIN_DIS = this.MIN_DIS > this.MIN_DIS*0.25 ? this.MIN_DIS - this.MIN_DIS*0.12 : this.MIN_DIS*0.25;
       if(this.colorIndex <= this.colors.length)
         this.colorIndex++;
       if(this.probabilities[0] <= 0.5) {
@@ -187,7 +186,7 @@ export class HomePage implements OnInit{
       if(this.probabilities[1] <= 0.5) {
         this.probabilities[1] += 0.04;
       }
-      if(this.probabilities[2] > 0) {
+      if(this.probabilities[2] >= 0.08) {
         this.probabilities[2] -= 0.08;
       }
     }

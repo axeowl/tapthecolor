@@ -8,11 +8,6 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'start',
     loadChildren: () => import('./start/start.module').then( m => m.StartPageModule)
   },
   {
