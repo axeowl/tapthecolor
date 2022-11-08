@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular'; 
+import { MetatagService } from '../services/metatag.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -31,7 +32,10 @@ export class HomePage implements OnInit{
   modes = [0, 1, 2];
 
   constructor(private router: Router, 
-              private storage: Storage) {
+              private storage: Storage,
+              private meta: MetatagService) {
+              
+    
 
 
     this.storage.create();
@@ -45,6 +49,21 @@ export class HomePage implements OnInit{
   }
 
   ngOnInit() {
+    this.meta.setTitle('TapTheColor.com | Your game');
+
+    this.meta.updateMeta(
+      'description',
+      'Test your attention matching the right colors and backgrounds and challenge your friends!'
+    );
+
+    this.meta.setSocialTag(
+      'Home',
+      'Test your attention matching the right colors and backgrounds and challenge your friends!',
+      'assets/logo.png',
+      '',
+      true
+    );
+
     this.initializeGame();
   }
 
@@ -80,13 +99,22 @@ export class HomePage implements OnInit{
       let isCorrect = this.getRandomValueOnRate();
       this.gameMatrix[row][col] = this.generateBall(row*10+col, startTime, isCorrect)
       startTime = !this.gameMatrix[row][col].clickable ? startTime*2/3 : startTime;
+
       this.gameMatrix[row][col]["timeout"] = window.setTimeout(() => {
+       
+        // document.getElementById(this.gameMatrix[row][col].id).style.animation="myAnim 0.8s linear 0s 1 normal forwards";
+        // document.getElementById(this.gameMatrix[row][col].id).addEventListener("animationend", function() {
+        //   console.log('finita l animazione')
+        // }, false);
+
         this.gameMatrix[row][col].show = 0;
         this.gameMatrix[row][col].bg = this.neutral;
         this.gameMatrix[row][col].clickable = false;
+
         if(this.gameMatrix[row][col].correct && !this.gameMatrix[row][col].popped) {
           this.failed();
         }
+
         this.refillCell(row, col);
       }, startTime);
       this.generatedCells++;

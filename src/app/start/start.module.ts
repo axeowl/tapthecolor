@@ -8,6 +8,7 @@ import { StartPageRoutingModule } from './start-routing.module';
 
 import { StartPage } from './start.page';
 
+
 @NgModule({
   imports: [
     CommonModule,
