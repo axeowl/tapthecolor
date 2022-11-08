@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular'; 
 import { MetatagService } from '../services/metatag.service';
 @Component({
@@ -12,9 +13,13 @@ export class HomePage implements OnInit{
   ROW = 3;
   COL = 3;
   MIN_DIS = 5000;
-  MAX_DIS = 6800;
+  MAX_DIS = 6500;
   MIN_APP = 3000;
   MAX_APP = 4000;
+  START_MIN_DIS = 5000;
+  START_MAX_DIS = 6500;
+  START_MIN_APP = 3000;
+  START_MAX_APP = 4000;
   gameMatrix: any;
   points = 0;
   localScore: number;
@@ -24,16 +29,18 @@ export class HomePage implements OnInit{
             ["#B2C224","green"],
             ["#40A4D8","blue"],
             ["#A364D9","violet"],
-            ["#EE6579","pink"],];
+            ["#EE6579","pink"]];
   colorIndex = 2;
   neutral = "#8E8E8E";
   generatedCells = 0;
-  probabilities = [0.1, 0.2, 0.7];
+  probabilities = [0.1, 0.25, 0.65];
   modes = [0, 1, 2];
+  backbutton;
 
   constructor(private router: Router, 
               private storage: Storage,
-              private meta: MetatagService) {
+              private meta: MetatagService,
+              private platform: Platform) {
               
     
 
@@ -88,6 +95,10 @@ export class HomePage implements OnInit{
     }
   }
 
+  ionViewDidEnter() {
+    this.backbutton = this.platform.backButton.observers.pop();
+  }
+
   refillCell(row, col) {
     window.clearTimeout(this.gameMatrix[row][col].timeout);
 
@@ -117,7 +128,6 @@ export class HomePage implements OnInit{
 
         this.refillCell(row, col);
       }, startTime);
-      this.generatedCells++;
     }, refillTime);
   }
 
@@ -173,6 +183,7 @@ export class HomePage implements OnInit{
   }
 
   generateBall(id, startTime, mode) {
+    this.generatedCells++;
     if(mode == 1) {
       let bgRndIndex = this.getRandomValue(0,this.colorIndex);
       let labelRndIndex = this.getRandomValue(0,this.colorIndex);
@@ -180,6 +191,7 @@ export class HomePage implements OnInit{
         bgRndIndex = this.getRandomValue(0,this.colorIndex);
         labelRndIndex = this.getRandomValue(0,this.colorIndex);
       }
+      console.log(bgRndIndex, labelRndIndex, bgRndIndex, this.colors[bgRndIndex], this.colors[labelRndIndex], this.colors[bgRndIndex]);
       return { "id": id, "show": 1, "time": startTime, "bg": this.colors[bgRndIndex][0], "labelBg": this.colors[labelRndIndex][0], "label": this.colors[bgRndIndex][1], "correct": true, "popped": false, "clickable": true }
     }
     else if(mode == 0) {
@@ -201,13 +213,15 @@ export class HomePage implements OnInit{
 
   increasePoint() {
     this.points++;
-    if(this.generatedCells%8 == 0) {
-      this.MAX_APP = this.MAX_APP > this.MAX_APP*0.25 ? this.MAX_APP - this.MAX_APP*0.1 : this.MAX_APP*0.25;
-      this.MIN_APP = this.MIN_APP > this.MIN_APP*0.25 ? this.MIN_APP - this.MIN_APP*0.1 : this.MIN_APP*0.25;
-      this.MAX_DIS = this.MAX_DIS > this.MAX_DIS*0.25 ? this.MAX_DIS - this.MAX_DIS*0.12 : this.MAX_DIS*0.25;
-      this.MIN_DIS = this.MIN_DIS > this.MIN_DIS*0.25 ? this.MIN_DIS - this.MIN_DIS*0.12 : this.MIN_DIS*0.25;
-      if(this.colorIndex <= this.colors.length)
+    if(this.points%4 == 0) {
+      console.log("INCREASING...");
+      this.MAX_APP = this.MAX_APP > this.START_MAX_APP*0.25 ? this.MAX_APP - this.MAX_APP*0.12 : this.START_MAX_APP*0.25;
+      this.MIN_APP = this.MIN_APP > this.START_MIN_APP*0.25 ? this.MIN_APP - this.MIN_APP*0.12 : this.START_MIN_APP*0.25;
+      this.MAX_DIS = this.MAX_DIS > this.START_MAX_DIS*0.25 ? this.MAX_DIS - this.MAX_DIS*0.14 : this.START_MAX_DIS*0.25;
+      this.MIN_DIS = this.MIN_DIS > this.START_MIN_DIS*0.25 ? this.MIN_DIS - this.MIN_DIS*0.14 : this.START_MIN_DIS*0.25;
+      if(this.colorIndex < this.colors.length){
         this.colorIndex++;
+      }
       if(this.probabilities[0] <= 0.5) {
         this.probabilities[0] += 0.04;
       }
@@ -219,5 +233,16 @@ export class HomePage implements OnInit{
       }
     }
   }
+
+  ionViewWillLeave() {
+    for(let i=0; i<this.ROW; i++) {
+      for(let j=0; j<this.COL; j++) {
+        window.clearTimeout(this.gameMatrix[i][j].timeout);
+      }
+    }
+    this.points = 0;
+    this.platform.backButton.observers.push(this.backbutton);
+
+  }  
 
 }

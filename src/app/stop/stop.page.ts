@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SocialsharingService } from '../services/socialsharing.service';
 import { MetatagService } from '../services/metatag.service';
+import { Storage } from '@ionic/storage-angular'; 
 
 @Component({
   selector: 'app-stop',
@@ -12,12 +13,18 @@ export class StopPage implements OnInit {
 
   subscription;
   points = 0;
-
+  bestScore;
   constructor(private platform:Platform,
               public socialSharing: SocialsharingService,
-              private meta: MetatagService) { 
-              
-              
+              private meta: MetatagService,
+              private storage: Storage) { 
+                this.storage.create();
+                this.storage.get('score').then((val) => {
+                  if(val == undefined)
+                    this.bestScore = 0;
+                  else
+                    this.bestScore = val;
+                });
   }
 
   ngOnInit() {
