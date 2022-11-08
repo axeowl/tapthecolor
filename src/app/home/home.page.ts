@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular'; 
+import { MetatagService } from '../services/metatag.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -31,7 +32,10 @@ export class HomePage implements OnInit{
   modes = [0, 1, 2];
 
   constructor(private router: Router, 
-              private storage: Storage) {
+              private storage: Storage,
+              private meta: MetatagService) {
+              
+    
 
 
     this.storage.create();
@@ -45,6 +49,21 @@ export class HomePage implements OnInit{
   }
 
   ngOnInit() {
+    this.meta.setTitle('TapTheColor.com | Your game');
+
+    this.meta.updateMeta(
+      'description',
+      'Test your attention matching the right colors and backgrounds and challenge your friends!'
+    );
+
+    this.meta.setSocialTag(
+      'Home',
+      'Test your attention matching the right colors and backgrounds and challenge your friends!',
+      'assets/logo.png',
+      '',
+      true
+    );
+
     this.initializeGame();
   }
 
