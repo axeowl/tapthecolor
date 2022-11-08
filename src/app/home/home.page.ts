@@ -235,6 +235,7 @@ export class HomePage implements OnInit{
   }
 
   ionViewWillLeave() {
+    this.gameMatrix = [];
     for(let i=0; i<this.ROW; i++) {
       for(let j=0; j<this.COL; j++) {
         window.clearTimeout(this.gameMatrix[i][j].timeout);
