@@ -94,21 +94,24 @@ td {
 
 
 
-.bounce{
-  animation: myAnim 0.8s linear 0s 1 normal forwards;
-}
+// .bounce{
+//   animation: myAnim 0.8s linear 0s 1 normal forwards;
+// }
 
 @keyframes myAnim {
 	0% {
-		transform: scale(1);
+		opacity: 0.8;
+		transform: scale(0.2);
 	}
 
-	50% {
-		transform: scale(1.1);
+	80% {
+		opacity: 0;
+		transform: scale(1.2);
 	}
 
 	100% {
-		transform: scale(1);
+		opacity: 0;
+		transform: scale(2.2);
 	}
 }
 

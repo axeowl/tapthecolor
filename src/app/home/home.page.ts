@@ -20,7 +20,7 @@ export class HomePage implements OnInit{
   START_MAX_DIS = 6500;
   START_MIN_APP = 3000;
   START_MAX_APP = 4000;
-  gameMatrix: any;
+  gameMatrix: any = [[]];
   points = 0;
   localScore: number;
   colors = [["#DB3937","red"],
@@ -42,10 +42,6 @@ export class HomePage implements OnInit{
               private storage: Storage,
               private meta: MetatagService,
               private platform: Platform) {
-              
-    
-
-
     this.storage.create();
     this.storage.get('score').then((val) => {
       if(val == undefined)
@@ -71,7 +67,6 @@ export class HomePage implements OnInit{
       '',
       true
     );
-    this.gameMatrix = [[]];
   }
 
   ionViewWillEnter() {
@@ -124,11 +119,11 @@ export class HomePage implements OnInit{
           this.failed();
         }
 
-        this.refillCell(row, col);
         document.getElementById(this.gameMatrix[row][col].id).style.animation=null;
+        this.refillCell(row, col);
       }, startTime));
       if(this.gameMatrix[row][col].clickable) {
-        document.getElementById(this.gameMatrix[row][col].id).style.animation="myAnim 1s ease 0s 1 normal none";
+        document.getElementById(this.gameMatrix[row][col].id).style.animation="myAnim 1s ease 0s 1 normal forwards";
       }
     }, refillTime));
   }
@@ -160,7 +155,7 @@ export class HomePage implements OnInit{
         this.gameMatrix[row][col].bg = this.neutral;
         this.gameMatrix[row][col].clickable = false;
         this.gameMatrix[row][col].popped = true;
-        this.refillCell(row, col);
+        // this.refillCell(row, col);
         this.increasePoint();
       }
       else {
@@ -218,20 +213,20 @@ export class HomePage implements OnInit{
     this.points++;
     if(this.points%4 == 0) {
       console.log("INCREASING...");
-      this.MAX_APP = this.MAX_APP > this.START_MAX_APP*0.25 ? this.MAX_APP - this.MAX_APP*0.12 : this.START_MAX_APP*0.25;
-      this.MIN_APP = this.MIN_APP > this.START_MIN_APP*0.25 ? this.MIN_APP - this.MIN_APP*0.12 : this.START_MIN_APP*0.25;
-      this.MAX_DIS = this.MAX_DIS > this.START_MAX_DIS*0.25 ? this.MAX_DIS - this.MAX_DIS*0.14 : this.START_MAX_DIS*0.25;
-      this.MIN_DIS = this.MIN_DIS > this.START_MIN_DIS*0.25 ? this.MIN_DIS - this.MIN_DIS*0.14 : this.START_MIN_DIS*0.25;
+      this.MAX_APP = this.MAX_APP > this.START_MAX_APP*0.32 ? this.MAX_APP - this.MAX_APP*0.12 : this.START_MAX_APP*0.32;
+      this.MIN_APP = this.MIN_APP > this.START_MIN_APP*0.32 ? this.MIN_APP - this.MIN_APP*0.12 : this.START_MIN_APP*0.32;
+      this.MAX_DIS = this.MAX_DIS > this.START_MAX_DIS*0.32 ? this.MAX_DIS - this.MAX_DIS*0.14 : this.START_MAX_DIS*0.32;
+      this.MIN_DIS = this.MIN_DIS > this.START_MIN_DIS*0.32 ? this.MIN_DIS - this.MIN_DIS*0.14 : this.START_MIN_DIS*0.32;
       if(this.colorIndex < this.colors.length){
         this.colorIndex++;
       }
-      if(this.probabilities[0] <= 0.5) {
+      if(this.probabilities[0] <= 0.48) {
         this.probabilities[0] += 0.04;
       }
-      if(this.probabilities[1] <= 0.5) {
+      if(this.probabilities[1] <= 0.42) {
         this.probabilities[1] += 0.04;
       }
-      if(this.probabilities[2] >= 0.08) {
+      if(this.probabilities[2] >= 0.1) {
         this.probabilities[2] -= 0.08;
       }
     }
