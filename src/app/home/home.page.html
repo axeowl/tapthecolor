@@ -29,9 +29,9 @@
   <div class="color-div px-4">
     <table class="table h-100 text-center rounded rounded-5 overflow-hidden mb-0">
       <tbody>
-        <tr *ngFor="let row of [0,1,2]" class="border-0 shadow"> 
-          <td *ngFor="let col of [0,1,2]" id={{gameMatrix[row][col].id}} (click)="pop(row,col)" [style.background]="gameMatrix[row][col].bg" class="align-middle border-0 shadow" ngClass="{'slide-bck-center': 'gameMatrix[row][col].popped' && 'gameMatrix[row][col].correct'}">
-            <label *ngIf="gameMatrix[row][col].show" [style.color]="gameMatrix[row][col].labelBg" class="text-tr" >{{gameMatrix[row][col].label}}</label>
+        <tr *ngFor="let row of gameMatrix; let i = index" class="border-0 shadow"> 
+          <td *ngFor="let col of row; let j = index" id={{col.id}} (click)="pop(i,j)" [style.background]="col.bg" class="align-middle border-0 shadow" ngClass="{'slide-bck-center': 'col.popped' && 'col.correct'}">
+            <label *ngIf="col.show" [style.color]="col.labelBg" class="text-tr" >{{col.label}}</label>
           </td>
         </tr>
       </tbody>
