@@ -14,7 +14,6 @@ export class StopPage implements OnInit {
   subscription;
   points = 0;
   bestScore;
-  localScore;
   constructor(private platform:Platform,
               public socialSharing: SocialsharingService,
               private meta: MetatagService,
@@ -25,12 +24,6 @@ export class StopPage implements OnInit {
                     this.bestScore = 0;
                   else
                     this.bestScore = val;
-                });
-                this.storage.get('lscore').then((val) => {
-                  if(val == undefined)
-                    this.localScore = 0;
-                  else
-                    this.localScore = val;
                 });
   }
 

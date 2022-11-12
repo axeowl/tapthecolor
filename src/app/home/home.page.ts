@@ -20,28 +20,31 @@ export class HomePage implements OnInit{
   START_MAX_DIS = 6500;
   START_MIN_APP = 3000;
   START_MAX_APP = 4000;
-  gameMatrix: any = [[]];
+  gameMatrix: any;
   points = 0;
   localScore: number;
   colors = [["#DB3937","red"],
+            ["#F66320","orange"],
             ["#FECC2F","yellow"],
             ["#B2C224","green"],
             ["#40A4D8","blue"],
             ["#A364D9","violet"],
-            ["#EE6579","pink"],
-            ["#000000","black"]];
+            ["#EE6579","pink"]];
   colorIndex = 2;
   neutral = "#8E8E8E";
   generatedCells = 0;
   probabilities = [0.1, 0.25, 0.65];
   modes = [0, 1, 2];
   backbutton;
-  timeouts = [];
 
   constructor(private router: Router, 
               private storage: Storage,
               private meta: MetatagService,
               private platform: Platform) {
+              
+    
+
+
     this.storage.create();
     this.storage.get('score').then((val) => {
       if(val == undefined)
@@ -67,11 +70,10 @@ export class HomePage implements OnInit{
       '',
       true
     );
-  }
 
-  ionViewWillEnter() {
     this.initializeGame();
   }
+
   initializeGame() {
     this.gameMatrix = [];
     for(let i=0; i<this.ROW; i++) {
@@ -80,7 +82,7 @@ export class HomePage implements OnInit{
         let startTime = this.getRandomValue(this.MIN_DIS,this.MAX_DIS)
         let isCorrect = this.getRandomValueOnRate();
         this.gameMatrix[i][j] = this.generateBall(i*10+j, startTime, isCorrect)
-        this.timeouts.push(window.setTimeout(() => {
+        this.gameMatrix[i][j]["timeout"] = window.setTimeout(() => {
           this.gameMatrix[i][j].show = 0;
           this.gameMatrix[i][j].bg = this.neutral;
           this.gameMatrix[i][j].clickable = false;
@@ -88,7 +90,7 @@ export class HomePage implements OnInit{
             this.failed();
           }
           this.refillCell(i, j);
-        }, startTime));
+        }, startTime);
       }
     }
   }
@@ -104,12 +106,17 @@ export class HomePage implements OnInit{
     let refillTime = this.getRandomValue(this.MIN_APP,this.MAX_APP)
     
     refillTime = !this.gameMatrix[row][col].clickable ? refillTime/2 : refillTime;
-    this.timeouts.push(window.setTimeout(() => {
+    window.setTimeout(() => {
       let isCorrect = this.getRandomValueOnRate();
       this.gameMatrix[row][col] = this.generateBall(row*10+col, startTime, isCorrect)
       startTime = !this.gameMatrix[row][col].clickable ? startTime*2/3 : startTime;
 
-      this.timeouts.push(window.setTimeout(() => {
+      this.gameMatrix[row][col]["timeout"] = window.setTimeout(() => {
+       
+        // document.getElementById(this.gameMatrix[row][col].id).style.animation="myAnim 0.8s linear 0s 1 normal forwards";
+        // document.getElementById(this.gameMatrix[row][col].id).addEventListener("animationend", function() {
+        //   console.log('finita l animazione')
+        // }, false);
 
         this.gameMatrix[row][col].show = 0;
         this.gameMatrix[row][col].bg = this.neutral;
@@ -119,13 +126,9 @@ export class HomePage implements OnInit{
           this.failed();
         }
 
-        document.getElementById(this.gameMatrix[row][col].id).style.animation=null;
         this.refillCell(row, col);
-      }, startTime));
-      if(this.gameMatrix[row][col].clickable) {
-        document.getElementById(this.gameMatrix[row][col].id).style.animation="myAnim 1s ease 0s 1 normal forwards";
-      }
-    }, refillTime));
+      }, startTime);
+    }, refillTime);
   }
 
   getRandomValue(min, max) {
@@ -155,7 +158,7 @@ export class HomePage implements OnInit{
         this.gameMatrix[row][col].bg = this.neutral;
         this.gameMatrix[row][col].clickable = false;
         this.gameMatrix[row][col].popped = true;
-        // this.refillCell(row, col);
+        this.refillCell(row, col);
         this.increasePoint();
       }
       else {
@@ -176,8 +179,7 @@ export class HomePage implements OnInit{
         this.storage.set('score', this.points);
       }
     });
-    this.storage.set('lscore', this.points);
-    this.router.navigateByUrl("/stop");
+    this.router.navigateByUrl("/stop")
   }
 
   generateBall(id, startTime, mode) {
@@ -213,40 +215,33 @@ export class HomePage implements OnInit{
     this.points++;
     if(this.points%4 == 0) {
       console.log("INCREASING...");
-      this.MAX_APP = this.MAX_APP > this.START_MAX_APP*0.32 ? this.MAX_APP - this.MAX_APP*0.12 : this.START_MAX_APP*0.32;
-      this.MIN_APP = this.MIN_APP > this.START_MIN_APP*0.32 ? this.MIN_APP - this.MIN_APP*0.12 : this.START_MIN_APP*0.32;
-      this.MAX_DIS = this.MAX_DIS > this.START_MAX_DIS*0.32 ? this.MAX_DIS - this.MAX_DIS*0.14 : this.START_MAX_DIS*0.32;
-      this.MIN_DIS = this.MIN_DIS > this.START_MIN_DIS*0.32 ? this.MIN_DIS - this.MIN_DIS*0.14 : this.START_MIN_DIS*0.32;
+      this.MAX_APP = this.MAX_APP > this.START_MAX_APP*0.25 ? this.MAX_APP - this.MAX_APP*0.12 : this.START_MAX_APP*0.25;
+      this.MIN_APP = this.MIN_APP > this.START_MIN_APP*0.25 ? this.MIN_APP - this.MIN_APP*0.12 : this.START_MIN_APP*0.25;
+      this.MAX_DIS = this.MAX_DIS > this.START_MAX_DIS*0.25 ? this.MAX_DIS - this.MAX_DIS*0.14 : this.START_MAX_DIS*0.25;
+      this.MIN_DIS = this.MIN_DIS > this.START_MIN_DIS*0.25 ? this.MIN_DIS - this.MIN_DIS*0.14 : this.START_MIN_DIS*0.25;
       if(this.colorIndex < this.colors.length){
         this.colorIndex++;
       }
-      if(this.probabilities[0] <= 0.48) {
+      if(this.probabilities[0] <= 0.5) {
         this.probabilities[0] += 0.04;
       }
-      if(this.probabilities[1] <= 0.42) {
+      if(this.probabilities[1] <= 0.5) {
         this.probabilities[1] += 0.04;
       }
-      if(this.probabilities[2] >= 0.1) {
+      if(this.probabilities[2] >= 0.08) {
         this.probabilities[2] -= 0.08;
       }
     }
   }
 
   ionViewWillLeave() {
-    console.log("STO USCENDO")
-    this.timeouts.forEach(e => {
-      console.log(e);
-      window.clearTimeout(e);
-    });
+    this.gameMatrix = [];
+    for(let i=0; i<this.ROW; i++) {
+      for(let j=0; j<this.COL; j++) {
+        window.clearTimeout(this.gameMatrix[i][j].timeout);
+      }
+    }
     this.points = 0;
-    this.MAX_APP = this.START_MAX_APP;
-    this.MIN_APP = this.START_MIN_APP;
-    this.MAX_DIS = this.START_MAX_DIS;
-    this.MIN_DIS = this.START_MIN_DIS;
-    this.colorIndex = 2;
-    this.generatedCells = 0;
-    this.probabilities = [0.1, 0.25, 0.65];
-    this.timeouts = [];
     this.platform.backButton.observers.push(this.backbutton);
 
   }  
