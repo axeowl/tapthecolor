@@ -12,14 +12,14 @@ export class HomePage implements OnInit{
 
   ROW = 3;
   COL = 3;
-  MIN_DIS = 5000;
-  MAX_DIS = 6500;
-  MIN_APP = 3000;
-  MAX_APP = 4000;
-  START_MIN_DIS = 5000;
-  START_MAX_DIS = 6500;
-  START_MIN_APP = 3000;
-  START_MAX_APP = 4000;
+  MIN_DIS = 4500;
+  MAX_DIS = 6000;
+  MIN_APP = 2800;
+  MAX_APP = 3500;
+  START_MIN_DIS = 4500;
+  START_MAX_DIS = 6000;
+  START_MIN_APP = 2800;
+  START_MAX_APP = 3500;
   gameMatrix: any = [[]];
   points = 0;
   localScore: number;
@@ -33,7 +33,7 @@ export class HomePage implements OnInit{
   colorIndex = 2;
   neutral = "#8E8E8E";
   generatedCells = 0;
-  probabilities = [0.1, 0.25, 0.65];
+  probabilities = [0.15, 0.30, 0.55];
   modes = [0, 1, 2];
   backbutton;
   timeouts = [];
@@ -72,6 +72,7 @@ export class HomePage implements OnInit{
   ionViewWillEnter() {
     this.initializeGame();
   }
+  
   initializeGame() {
     this.gameMatrix = [];
     for(let i=0; i<this.ROW; i++) {
@@ -123,7 +124,8 @@ export class HomePage implements OnInit{
         this.refillCell(row, col);
       }, startTime));
       if(this.gameMatrix[row][col].clickable) {
-        document.getElementById(this.gameMatrix[row][col].id).style.animation="myAnim 1s ease 0s 1 normal forwards";
+        console.log(document.getElementById(this.gameMatrix[row][col].id));
+        document.getElementById((this.gameMatrix[row][col].id).toString()).style.animation="myAnim 1s ease 0s 1 normal forwards";
       }
     }, refillTime));
   }
