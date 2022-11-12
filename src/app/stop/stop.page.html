@@ -8,7 +8,7 @@
     <div class="main text-center gameover mt-5">
       <div class="m-3">
         <label class="col title-game font-weight-bold angle m-0 mt-4"> Your score is</label>
-        <label class="col title-game font-weight-bold text-right angle points m-0">{{bestScore}} 🎉</label>
+        <label class="col title-game font-weight-bold text-right angle points m-0">{{localScore}} 🎉</label>
       </div>      
     </div>
   </div>
@@ -23,12 +23,13 @@
       [include]="['twitter', 'facebook', 'telegram', 'whatsapp']"
       [showIcon]="true"
       [showText]="false"
-      url="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png"
-      description="Il mio punteggio è di {{points}}"
+      description="Il mio punteggio è di {{localScore}}. Riesci a fare di meglio? Sfidami 😉| TapTheColor.com"
       class="pt-2"
       twitterAccount="twitter">
     </share-buttons>
   </div>
   
+  <ng-adsense></ng-adsense>
 
 </ion-content>
+

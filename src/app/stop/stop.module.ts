@@ -8,6 +8,9 @@ import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
+import { AdsenseModule } from 'ng2-adsense';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +18,12 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     IonicModule,
     StopPageRoutingModule,
     IonicStorageModule.forRoot(),
+    AdsenseModule.forRoot({
+      adClient: 'ca-pub-9488590203218211',
+      adSlot: 3053364783,
+      adFormat: 'auto',
+      fullWidthResponsive: true
+    }),
     ShareButtonsModule.withConfig({
       debug: true,
     }),
