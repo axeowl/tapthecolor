@@ -105,22 +105,22 @@ export class HomePage implements OnInit{
     let refillTime = this.getRandomValue(this.MIN_APP,this.MAX_APP)
     
     refillTime = !this.gameMatrix[row][col].clickable ? refillTime/2 : refillTime;
+
     this.timeouts.push(window.setTimeout(() => {
       let isCorrect = this.getRandomValueOnRate();
       this.gameMatrix[row][col] = this.generateBall(row*10+col, startTime, isCorrect)
       startTime = !this.gameMatrix[row][col].clickable ? startTime*2/3 : startTime;
 
       this.timeouts.push(window.setTimeout(() => {
-
         this.gameMatrix[row][col].show = 0;
         this.gameMatrix[row][col].bg = this.neutral;
         this.gameMatrix[row][col].clickable = false;
 
+        document.getElementById(this.gameMatrix[row][col].id).classList.remove("bounce");
+
         if(this.gameMatrix[row][col].correct && !this.gameMatrix[row][col].popped) {
           this.failed();
         }
-
-        document.getElementById(this.gameMatrix[row][col].id).style.animation=null;
         this.refillCell(row, col);
       }, startTime));
       if(this.gameMatrix[row][col].clickable) {

@@ -37,6 +37,7 @@
     "@ionic/storage-angular": "^3.0.6",
     "angular-cli-ghpages": "^1.0.3",
     "ionicons": "^6.0.3",
+    "ng2-adsense": "^11.0.0",
     "ngx-bootstrap": "^9.0.0",
     "ngx-sharebuttons": "^11.0.0",
     "rxjs": "~6.6.0",

@@ -7,8 +7,8 @@
   <div class="d-flex  justify-content-center">
     <div class="main text-center gameover mt-5">
       <div class="m-3">
-        <label class="col title-game font-weight-bold angle m-0 mt-4"> Your score is {{localScore}}</label>
-        <label class="col title-game font-weight-bold text-right angle points m-0">{{bestScore}} 🎉</label>
+        <label class="col title-game font-weight-bold angle m-0 mt-4"> Your score is</label>
+        <label class="col title-game font-weight-bold text-right angle points m-0">{{localScore}} 🎉</label>
       </div>      
     </div>
   </div>
@@ -23,12 +23,13 @@
       [include]="['twitter', 'facebook', 'telegram', 'whatsapp']"
       [showIcon]="true"
       [showText]="false"
-      url="https://github.com/axeowl/tapthecolor/blob/main/src/assets/logo.png?raw=true"
-      description="Il mio punteggio è di {{localScore}} | TapTheColor.com"
+      description="Il mio punteggio è di {{localScore}}. Riesci a fare di meglio? Sfidami 😉| TapTheColor.com"
       class="pt-2"
       twitterAccount="twitter">
     </share-buttons>
   </div>
   
+  <ng-adsense></ng-adsense>
 
 </ion-content>
+
