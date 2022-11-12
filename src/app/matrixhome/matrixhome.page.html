@@ -3,6 +3,9 @@
   <div class="m-2">
     <label class="title-game font-weight-bold mt-5"> TapTheColor.com</label>
   </div>
+  <div class="m-2">
+    <p class="subtitle-game font-weight-bold"> Tap all cells with right pair of background color and label text </p>
+  </div>
 
   <!-- punti -->
   <div class="container">
@@ -21,6 +24,14 @@
             {{points}}
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row bg-white points-div mx-3 mb-3 shadow info-points">
+      <div class="col-12 p-0">
+        <ion-progress-bar [value]="progress"></ion-progress-bar>
       </div>
     </div>
   </div>

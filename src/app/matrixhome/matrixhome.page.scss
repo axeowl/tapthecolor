@@ -1,0 +1,126 @@
+
+.color-div {
+    height: 55%;
+  }
+  
+  .rounded-5 {
+    border-radius: 10px !important;
+  }
+  
+  .table-base{
+    background-color: white;
+    border-radius: 0px 0px 10px 10px;
+    height: 25px;
+    width: 95%;
+  }
+  
+  .title-game{
+    font-family: Nunito !important;
+    font-size:1.8em;
+    color: #505050;
+    margin-left: 15px;
+  }
+
+  .subtitle-game{
+    font-family: Nunito !important;
+    font-size:1.1em;
+    color: #7e7c7c;
+    margin-left: 15px;
+  }
+  
+  .points-div{
+    font-family: Nunito !important;
+    color: #656565;
+    border-radius: 15px;
+  }
+  
+  .text-tr{
+    font-family: Nunito !important;
+    font-size:1.48em;
+    font-weight: bold;
+    text-shadow: 1px 0 #fff, -1px 0 #fff, 0 1px #fff, 0 -1px #fff,
+                 1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+  }
+  
+  .star{
+    width: 35px;
+    height: 35px;
+  }
+  
+  .well {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  .points{
+    font-family: Nunito !important;
+    color: #333335;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  
+  
+  .slide-bck-center {
+      animation: slide-bck-center 0.45s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+  }
+  
+  @keyframes slide-bck-center {
+    0% {
+      transform: translateZ(0);
+    }
+    100% {
+      transform: translateZ(-400px);
+    }
+  }
+  
+  
+  table {
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+  td {
+    padding: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100px;
+    height: 120px;
+  }
+  
+  @media (min-width: 800px) {
+    /* … */
+    .color-div, .info-points{
+      margin-left: 300px;
+      margin-right: 300px;
+    }
+  
+    .best-score{
+      font-size: 1.7em;
+    }  
+  }
+  
+  
+  
+  .bounce{
+    animation: myAnim 0.8s linear 0s 1 normal forwards;
+  }
+  
+  @keyframes myAnim {
+      0% {
+          opacity: 0.8;
+          transform: scale(0.2);
+      }
+  
+      80% {
+          opacity: 0;
+          transform: scale(1.2);
+      }
+  
+      100% {
+          opacity: 0;
+          transform: scale(2.2);
+      }
+  }
+  
+  
+  
