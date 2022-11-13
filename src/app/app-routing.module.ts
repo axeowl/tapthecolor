@@ -18,7 +18,11 @@ const routes: Routes = [
   {
     path: 'stop',
     loadChildren: () => import('./stop/stop.module').then( m => m.StopPageModule)
+  },  {
+    path: 'matrixhome',
+    loadChildren: () => import('./matrixhome/matrixhome.module').then( m => m.MatrixhomePageModule)
   },
+
 ];
 
 @NgModule({
