@@ -185,18 +185,20 @@ export class MatrixhomePage implements OnInit {
     if(this.colorIndex < this.colors.length && this.points %3 == 0){
       this.colorIndex++;
     }
-    if(this.probabilities[0] <= 0.48) {
-      this.probabilities[0] += 0.04;
-    }
-    if(this.probabilities[1] <= 0.42) {
-      this.probabilities[1] += 0.04;
-    }
-    if(this.probabilities[2] >= 0.1) {
-      this.probabilities[2] -= 0.08;
+    if(this.points % 2 == 0) {
+      if(this.probabilities[0] <= 0.48) {
+        this.probabilities[0] += 0.04;
+      }
+      if(this.probabilities[1] <= 0.42) {
+        this.probabilities[1] += 0.04;
+      }
+      if(this.probabilities[2] >= 0.1) {
+        this.probabilities[2] -= 0.08;
+      }
     }
     // let newtime = this.MATRIX_TIMEOUT - 2^(this.points);
     // this.MATRIX_TIMEOUT = this.MATRIX_TIMEOUT - newtime <= this.MIN_MATRIX_TIMEOUT ? this.MIN_MATRIX_TIMEOUT : this.MATRIX_TIMEOUT - newtime;
-    this.MATRIX_TIMEOUT -= 100;
+    this.MATRIX_TIMEOUT -= 75;
   }
   getRandomValueOnRate() {
     var num = Math.random(),
