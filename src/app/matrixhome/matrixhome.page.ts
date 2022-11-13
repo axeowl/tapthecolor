@@ -86,6 +86,7 @@ export class MatrixhomePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.localScore = parseInt(this.cookie.getCookie('best'));
     this.storage.set('lscore', 0);
     this.initializeGame();
   }

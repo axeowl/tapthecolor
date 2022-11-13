@@ -1,0 +1,7 @@
+
+
+User-agent: *
+Aallow: /
+
+Allow: /sitemap.xml
+Sitemap: https://tapthecolor.com/sitemap.xml
