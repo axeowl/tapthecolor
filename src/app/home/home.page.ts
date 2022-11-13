@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular'; 
 import { MetatagService } from '../services/metatag.service';
+
+import { CookieService } from '../services/cookie.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -23,13 +25,13 @@ export class HomePage implements OnInit{
   gameMatrix: any = [[]];
   points = 0;
   localScore: number;
-  colors = [["#DB3937","red"],
-            ["#FECC2F","yellow"],
-            ["#B2C224","green"],
-            ["#40A4D8","blue"],
-            ["#A364D9","violet"],
-            ["#EE6579","pink"],
-            ["#000000","black"]];
+  colors = [["#DB3937","rosso"],
+            ["#FECC2F","giallo"],
+            ["#B2C224","verde"],
+            ["#40A4D8","blu"],
+            ["#A364D9","viola"],
+            ["#EE6579","rosa"],
+            ["#000000","nero"]];
   colorIndex = 2;
   neutral = "#8E8E8E";
   generatedCells = 0;
@@ -41,15 +43,24 @@ export class HomePage implements OnInit{
   constructor(private router: Router, 
               private storage: Storage,
               private meta: MetatagService,
-              private platform: Platform) {
+              private platform: Platform,
+              private cookie: CookieService) {
     this.storage.create();
-    this.storage.get('score').then((val) => {
-      if(val == undefined)
-        this.localScore = 0;
-      else
-        this.localScore = val;
-    });
+    // this.storage.get('score').then((val) => {
+    //   if(val == undefined)
+    //     this.localScore = 0;
+    //   else
+    //     this.localScore = val;
+    // });
 
+    let best = this.cookie.getCookie('best');
+    if(best == null) {
+      this.localScore = 0;
+      this.cookie.setCookie('best', "0", 1000)
+    } else {
+      this.localScore = parseInt(best);
+    }
+        
   }
 
   ngOnInit() {
@@ -173,11 +184,17 @@ export class HomePage implements OnInit{
         window.clearTimeout(this.gameMatrix[i][j].timeout);
       }
     }
-    this.storage.get('score').then((val) => {
-      if(val < this.points) {
-        this.storage.set('score', this.points);
-      }
-    });
+    // this.storage.get('score').then((val) => {
+    //   if(val < this.points) {
+    //     this.storage.set('score', this.points);
+    //   }
+    // });
+
+    let best = this.cookie.getCookie('best');
+    if(parseInt(best) < this.points) {
+      this.cookie.setCookie('best', this.points, 1000);
+    }
+
     this.storage.set('lscore', this.points);
     this.router.navigateByUrl("/stop");
   }

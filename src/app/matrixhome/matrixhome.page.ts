@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { interval } from 'rxjs';
 import { Storage } from '@ionic/storage-angular'; 
 import { MetatagService } from '../services/metatag.service';
+import { CookieService } from '../services/cookie.service';
 
 @Component({
   selector: 'app-matrixhome',
@@ -20,13 +21,13 @@ export class MatrixhomePage implements OnInit {
   gameMatrix: any = [[]];
   points = 0;
   localScore: number;
-  colors = [["#DB3937","red"],
-            ["#FECC2F","yellow"],
-            ["#B2C224","green"],
-            ["#40A4D8","blue"],
-            ["#A364D9","violet"],
-            ["#EE6579","pink"],
-            ["#000000","black"]];
+  colors = [["#DB3937","rosso"],
+            ["#FECC2F","giallo"],
+            ["#B2C224","verde"],
+            ["#40A4D8","blu"],
+            ["#A364D9","viola"],
+            ["#EE6579","rosa"],
+            ["#000000","nero"]];
   countCorrectCells = 0;
   colorIndex = 2;
   neutral = "#8E8E8E";
@@ -41,19 +42,34 @@ export class MatrixhomePage implements OnInit {
   constructor(private router: Router, 
     private storage: Storage,
     private meta: MetatagService,
-    private platform: Platform) {
+    private platform: Platform,
+    private cookie: CookieService) {
       this.storage.create();
-      this.storage.get('score').then((val) => {
-      if(val == undefined)
-      this.localScore = 0;
-      else
-      this.localScore = val;
-    });
+      // this.storage.get('score').then((val) => {
+      // if(val == undefined)
+      // this.localScore = 0;
+      // else
+      // this.localScore = val;
+      // });
+      // this.storage.get('score').then((val) => {
+    //   if(val == undefined)
+    //     this.localScore = 0;
+    //   else
+    //     this.localScore = val;
+    // });
 
-}
+      let best = this.cookie.getCookie('best');
+      if(best == null) {
+        this.localScore = 0;
+        this.cookie.setCookie('best', "0", 1000)
+      } else {
+        this.localScore = parseInt(best);
+      }
+
+  }
 
   ngOnInit() {
-    this.meta.setTitle('TapTheColor.com | Your game');
+    this.meta.setTitle('TapTheColor.com | Fai il tuo gioco');
 
     this.meta.updateMeta(
       'description',
@@ -70,6 +86,7 @@ export class MatrixhomePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.localScore = parseInt(this.cookie.getCookie('best'));
     this.storage.set('lscore', 0);
     this.initializeGame();
   }
@@ -141,15 +158,21 @@ export class MatrixhomePage implements OnInit {
   }
 
   failed() {
-    this.storage.get('score').then((val) => {
-      console.log(val < this.points, this.points)
-      if(val == undefined) {
-        this.storage.set('score', this.points);
-      }
-      else if(val < this.points) {
-        this.storage.set('score', this.points);
-      }
-    });
+    // this.storage.get('score').then((val) => {
+    //   console.log(val < this.points, this.points)
+    //   if(val == undefined) {
+    //     this.storage.set('score', this.points);
+    //   }
+    //   else if(val < this.points) {
+    //     this.storage.set('score', this.points);
+    //   }
+    // });
+
+    let best = this.cookie.getCookie('best');
+    if(parseInt(best) < this.points) {
+      this.cookie.setCookie('best', this.points, 1000);
+    }
+
     this.storage.set('lscore', this.points);
     let navigationExtras: NavigationExtras = {
       queryParams: {

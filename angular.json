@@ -30,7 +30,9 @@
                 "output": "./svg"
               },
               "src/manifest.webmanifest",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/sitemap.xml",
+              "src/robots.txt"
             ],
             "styles": ["src/theme/variables.scss", "src/global.scss",
             "node_modules/ngx-sharebuttons/themes/circles.scss",
@@ -117,7 +119,9 @@
                 "output": "/assets"
               },
               "src/manifest.webmanifest",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/sitemap.xml",
+              "src/robots.txt"
             ]
           },
           "configurations": {
