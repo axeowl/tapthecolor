@@ -11,7 +11,7 @@
   <div class="container">
     <div class="row points-div  mx-3">
       <div class="col pr-0">
-        <p class="text-right font-weight-bold best-score">Migliore punteggio: {{localScore}} 🎉</p>
+        <p class="text-right font-weight-bold best-score">Punteggio migliore: {{localScore}} 🎉</p>
       </div>
     </div>
     <div class="row bg-white points-div mx-3 mb-3 shadow info-points">
@@ -38,7 +38,7 @@
   
   <!-- matrice di gioco -->
   <div class="color-div px-4">
-    <table class="table h-100 text-center rounded rounded-5 overflow-hidden mb-0">
+    <table class="table h-100 text-center rounded rounded-5 overflow-hidden mb-0" id="gametable">
       <tbody>
         <tr *ngFor="let row of gameMatrix; let i = index" class="border-0 shadow"> 
           <td *ngFor="let col of row; let j = index" id="{{i*10+j}}" (click)="pop(i,j)" [style.background]="col.bg" class="align-middle border-0 shadow" ngClass="{'slide-bck-center': 'col.popped' && 'col.correct'}">

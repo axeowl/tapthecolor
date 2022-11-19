@@ -15,8 +15,8 @@ export class MatrixhomePage implements OnInit {
 
   ROW = 3;
   COL = 3;
-  MATRIX_TIMEOUT = 4500;
-  START_MATRIX_TIMEOUT = 4500;
+  MATRIX_TIMEOUT = 4000;
+  START_MATRIX_TIMEOUT = 4000;
   MIN_MATRIX_TIMEOUT = 2500;
   gameMatrix: any = [[]];
   points = 0;
@@ -33,6 +33,11 @@ export class MatrixhomePage implements OnInit {
   neutral = "#8E8E8E";
   generatedCells = 0;
   probabilities = [0.15, 0.30, 0.55];
+  quantities = [0, 0, 9];
+  filledCells = 3;
+  minFilledCells = 0;
+  timeStep = 100;
+  minTimeStep = 40;
   modes = [0, 1, 2];
   backbutton;
   timeout;
@@ -86,6 +91,9 @@ export class MatrixhomePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.quantities[1] = this.getRandomValue(this.minFilledCells+1,this.filledCells);
+    this.quantities[0] = this.getRandomValue(this.minFilledCells,this.filledCells-this.quantities[1]);
+    this.quantities[2] = 9 - this.quantities[0] + this.quantities[1];
     this.localScore = parseInt(this.cookie.getCookie('best'));
     this.storage.set('lscore', 0);
     this.initializeGame();
@@ -93,27 +101,49 @@ export class MatrixhomePage implements OnInit {
 
   initializeGame() {
     
+    this.countCorrectCells = this.quantities[1];
     this.gameMatrix = [];
 
-    clearInterval(this.interval)
+    clearInterval(this.interval);
+    clearTimeout(this.timeout);
     this.interval = setInterval(() => {
       this.progress += 0.01;
       if (this.progress > 1) {
         this.progress = 0;
       }
-    }, this.MATRIX_TIMEOUT/100);
+    }, (this.MATRIX_TIMEOUT)/100);
 
     for(let i=0; i<this.ROW; i++) {
       this.gameMatrix[i] = [];
-      for(let j=0; j<this.COL; j++) {
-        let isCorrect = this.getRandomValueOnRate();
-        if(isCorrect == 1) {
-          this.countCorrectCells++;
-        }
-        this.gameMatrix[i][j] = this.generateBall(i*10+j, isCorrect);
-      }
+      // for(let j=0; j<this.COL; j++) {
+      //   let isCorrect = this.getRandomValueOnRate();
+      //   if(isCorrect == 1) {
+      //     this.countCorrectCells++;
+      //   }
+      //   this.gameMatrix[i][j] = this.generateBall(i*10+j, isCorrect);
+      // }
     }
 
+    let matrixIdx = [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]];
+    for(let i = 0; i<this.quantities[0]; i++) {
+      let rndIdx = this.getRandomValue(0,matrixIdx.length);
+      let rndRow = matrixIdx[rndIdx][0];
+      let rndCol = matrixIdx[rndIdx][1];
+      matrixIdx.splice(rndIdx,1);
+      this.gameMatrix[rndRow][rndCol] = this.generateBall(rndRow*10+rndCol, 0);
+    }
+    for(let i = 0; i<this.quantities[1]; i++) {
+      let rndIdx = this.getRandomValue(0,matrixIdx.length);
+      let rndRow = matrixIdx[rndIdx][0];
+      let rndCol = matrixIdx[rndIdx][1];
+      matrixIdx.splice(rndIdx,1);
+      this.gameMatrix[rndRow][rndCol] = this.generateBall(rndRow*10+rndCol, 1);
+    }
+    for(let i = 0; i<matrixIdx.length; i++) {
+      let rndRow = matrixIdx[i][0];
+      let rndCol = matrixIdx[i][1];
+      this.gameMatrix[rndRow][rndCol] = this.generateBall(rndRow*10+rndCol, 2);
+    }
     this.timeout = window.setTimeout(() => {
       if(this.countCorrectCells != 0) {
         this.failed();
@@ -205,23 +235,37 @@ export class MatrixhomePage implements OnInit {
 
   success() {
     this.points++;
-    if(this.colorIndex < this.colors.length && this.points %3 == 0){
+    if(this.colorIndex < this.colors.length && this.points % 3 == 0){
       this.colorIndex++;
     }
-    if(this.points % 2 == 0) {
-      if(this.probabilities[0] <= 0.48) {
-        this.probabilities[0] += 0.04;
-      }
-      if(this.probabilities[1] <= 0.42) {
-        this.probabilities[1] += 0.04;
-      }
-      if(this.probabilities[2] >= 0.1) {
-        this.probabilities[2] -= 0.08;
-      }
+    // if(this.points % 3 == 0) {
+    //   if(this.probabilities[0] <= 0.48) {
+    //     this.probabilities[0] += 0.01;
+    //   }
+    //   if(this.probabilities[1] <= 0.42) {
+    //     this.probabilities[1] += 0.01;
+    //   }
+    //   if(this.probabilities[2] >= 0.1) {
+    //     this.probabilities[2] -= 0.02;
+    //   }
+    // }
+    if(this.points % 5 == 0) {
+      if(this.minFilledCells < Math.floor(this.filledCells/2))
+        this.minFilledCells++;
     }
-    // let newtime = this.MATRIX_TIMEOUT - 2^(this.points);
-    // this.MATRIX_TIMEOUT = this.MATRIX_TIMEOUT - newtime <= this.MIN_MATRIX_TIMEOUT ? this.MIN_MATRIX_TIMEOUT : this.MATRIX_TIMEOUT - newtime;
-    this.MATRIX_TIMEOUT -= 75;
+    if(this.points % 2 == 0) {
+      if(this.filledCells < 9)
+        this.filledCells++;
+      this.quantities[1] = this.getRandomValue(this.minFilledCells + 1,this.filledCells-1);
+      this.quantities[0] = this.getRandomValue(this.minFilledCells,this.filledCells-this.quantities[1]);
+      this.quantities[2] = 9 - this.quantities[0] + this.quantities[1];
+    }
+    
+    if(this.MATRIX_TIMEOUT + this.timeStep > this.MIN_MATRIX_TIMEOUT) {
+      this.MATRIX_TIMEOUT -= this.timeStep;
+      if(this.timeStep + 10 > this.minTimeStep)
+        this.timeStep -= 10;
+    }
   }
   getRandomValueOnRate() {
     var num = Math.random(),
